@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput, Dimensions, TouchableWithoutFeedback, ScrollView } from 'react-native';
 
 export default function App() {
-  const [ text, setText ] = useState('Uno en el parcial')
+  const [ text, setText ] = useState('Nota: 30')
   const [ submit, setSubmit ] = useState('')
   return (
     <View style={ styles.container }>
@@ -27,7 +27,7 @@ export default function App() {
             activeOpacity={0.2}
             onPress={() => {
             setSubmit(text)
-            alert('Mentiras, su nota es cinto')
+            alert('Eror:3 Nota: 5.0')
             }}><Text>Accept</Text>
         </TouchableWithoutFeedback>
       </ScrollView>
