@@ -1,42 +1,40 @@
-import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, Dimensions, TouchableWithoutFeedback, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 
 export default function App() {
-  const [ text, setText ] = useState('Nota: 30')
-  const [ submit, setSubmit ] = useState('')
+  const [ users, setUsers ] = useState([])
+  const [ loading, setLoading] = useState(true)
+ 
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(response => response.json())
+    .then(data => {
+      setUsers(data)
+      setLoading(false)
+    })
+  }, [])
+  if (loading){
+  return <View style={ styles.container }><Text>Cargando . . .</Text></View>
+  }
+
   return (
     <View style={ styles.container }>
-      <ScrollView style={ styles.scrollView}>
-        <Text>Texto: { submit }</Text> 
-        <Text>Texto: { submit }</Text>
-        <Text>Texto: { submit }</Text>
-        <Text>Texto: { submit }</Text>
-        <Text>Texto: { submit }</Text>
-        <Text>Texto: { submit }</Text>
-        <Text>Texto: { submit }</Text>
-        <Text>Texto: { submit }</Text>
-        <Text>Texto: { submit }</Text>
-        <Text>Texto: { submit }</Text>
-        <TextInput style={ styles.input }
-            placeholder='Write here'
-            onChangeText={ Texto => setText(Texto) }
-            defaultValue={ text }
-        />
-        <TouchableWithoutFeedback
-            underlayColor={ '#999' }
-            activeOpacity={0.2}
-            onPress={() => {
-            setSubmit(text)
-            alert('Eror:3 Nota: 5.0')
-            }}><Text>Accept</Text>
-        </TouchableWithoutFeedback>
-      </ScrollView>
+      <FlatList
+      data={users}
+      renderItem={({item}) => <Text style={styles.item}>{item.name}</Text>}
+      keyExtractor={item => String(item.id)}
+      />
     </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-    width: Dimensions.get('window').width
+  item: {
+      padding: 10,
+      fontSize: 22,
+      height: 50,
+      borderBottomColor: '#fff',
+      borderBottomWidth: 1,
+      paddingTop: 22
   },
 });
